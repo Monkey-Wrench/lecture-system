@@ -1,0 +1,1226 @@
+VIMA EXECUTIVE OS — PROJECT CONTEXT FOR GITHUB COPILOT AGENT
+===============================================================
+
+PURPOSE
+-------
+This file captures the current ChatGPT planning conversation for use by
+GitHub Copilot running as an agent in Visual Studio Code.
+
+The goal is to build an Executive Director Operating System for VIMA
+(Virgin Islands Museum of Art) using Obsidian, local automation, Markdown,
+PowerShell, Whisper/whisper.cpp, Ollama, and hot-folder workflows.
+
+IMPORTANT:
+- This is a PROJECT CONTEXT / REQUIREMENTS document, not executable code.
+- Do not assume that every implementation detail has already been decided.
+- Preserve the existing lecture/audio pipeline where practical.
+- Build incrementally and explain changes clearly.
+- The user has limited technical experience beyond being an experienced
+  end user and needs exact, step-by-step implementation instructions.
+- The user is working on a Mac but the existing lecture automation uses a
+  remote Windows 11 Pro machine with PowerShell/Task Scheduler. Determine
+  the appropriate execution environment before changing that architecture.
+
+
+===============================================================
+1. CORE CONCEPT
+===============================================================
+
+The VIMA system should be an Executive Director Operating System in
+Obsidian.
+
+The academic system and lecture system were the conceptual starting point,
+but the VIMA system must be organized around:
+
+- decisions
+- institutional knowledge
+- relationships
+- programs
+- governance
+- projects
+- execution
+- strategic priorities
+- meetings
+- documents
+- research
+- follow-up
+- commitments
+- risks
+- opportunities
+
+The core workflow is:
+
+    CAPTURE
+       |
+       v
+    AUTOMATED PROCESSING
+       |
+       v
+    STRUCTURE / INTERPRETATION
+       |
+       v
+    MARKDOWN
+       |
+       v
+    OBSIDIAN
+       |
+       v
+    REVIEW
+       |
+       v
+    ACTION / EXECUTIVE INTELLIGENCE
+
+Two primary automated intake pipelines are required:
+
+1. Audio -> transcription -> executive Markdown
+2. PDF -> text extraction -> executive summary Markdown
+
+A third manual path should exist:
+
+3. Quick capture -> Inbox -> processing/review
+
+
+===============================================================
+2. EXISTING LECTURE SYSTEM TO PRESERVE
+===============================================================
+
+The user already has a lecture transcription workflow conceptually
+structured as:
+
+    OBS laptop recordings
+        ->
+    file naming / calendar context
+        ->
+    OneDrive
+        ->
+    remote Windows 11 Pro
+        ->
+    Task Scheduler / PowerShell
+        ->
+    ffmpeg
+        ->
+    whisper.cpp / Whisper
+        ->
+    Ollama
+        ->
+    Obsidian Markdown
+        ->
+    course vault
+
+The existing academic output includes items such as:
+
+- Summary
+- Key Concepts
+- Study Questions
+- Flashcards
+- MP3/audio handling
+
+The VIMA system should retain the useful AUDIO -> TRANSCRIBE -> LLM ->
+MARKDOWN architecture, but change the interpretation/output for executive
+work.
+
+Do NOT destroy or casually replace the existing academic system.
+
+The preferred approach is to adapt or generalize the automation so that
+audio can be classified/processed for VIMA while the academic pipeline
+continues to work.
+
+
+===============================================================
+3. VIMA VAULT STRUCTURE — PROPOSED
+===============================================================
+
+Recommended Obsidian vault structure:
+
+VIMA Executive OS/
+|
++-- 00 Inbox/
+|   +-- Audio/
+|   +-- PDF/
+|   +-- Quick Capture/
+|   +-- Processed/
+|
++-- 10 Executive/
+|   +-- Dashboard.md
+|   +-- Weekly Review.md
+|   +-- Monthly Review.md
+|   +-- Decision Log.md
+|   +-- Executive Priorities.md
+|
++-- 20 Board/
+|   +-- Board Meetings/
+|   +-- Board Members/
+|   +-- Committees/
+|   +-- Governance/
+|   +-- Board Documents/
+|
++-- 30 People/
+|   +-- Staff/
+|   +-- Artists/
+|   +-- Donors/
+|   +-- Members/
+|   +-- Partners/
+|   +-- Trustees/
+|   +-- Community/
+|
++-- 40 Programs/
+|   +-- Exhibitions/
+|   +-- Education/
+|   +-- Public Programs/
+|   +-- Collections/
+|   +-- Community Engagement/
+|   +-- Special Projects/
+|
++-- 50 Projects/
+|   +-- Active/
+|   +-- Planning/
+|   +-- Completed/
+|
++-- 60 Operations/
+|   +-- Policies/
+|   +-- Procedures/
+|   +-- Facilities/
+|   +-- Technology/
+|   +-- HR/
+|   +-- Vendors/
+|
++-- 70 Development/
+|   +-- Fundraising/
+|   +-- Grants/
+|   +-- Sponsors/
+|   +-- Donors/
+|   +-- Campaigns/
+|
++-- 80 Communications/
+|   +-- Marketing/
+|   +-- Media/
+|   +-- Social/
+|   +-- Publications/
+|
++-- 90 Research/
+|   +-- Institutional Research/
+|   +-- Benchmarking/
+|   +-- Community/
+|   +-- Museums/
+|   +-- Strategic Research/
+|
++-- 95 Meetings/
+|
++-- 96 Documents/
+|
++-- 97 Templates/
+|
++-- 98 Attachments/
+|
++-- 99 Archive/
+
+
+IMPORTANT DESIGN PRINCIPLE:
+The folder structure is not the intelligence of the system.
+
+The intelligence should come from:
+- YAML/frontmatter properties
+- links
+- templates
+- Dataview
+- Tasks
+- Templater
+- QuickAdd
+- Bases and/or other suitable Obsidian plugins
+- automation-generated metadata
+
+
+===============================================================
+4. AUTOMATION FOLDER STRUCTURE — PROPOSED
+===============================================================
+
+Outside the Obsidian vault, use a dedicated automation directory.
+
+Suggested:
+
+VIMA-Automation/
+|
++-- 01-Audio-In/
+|
++-- 02-PDF-In/
+|
++-- 03-Processing/
+|
++-- 04-Output/
+|
++-- 05-Processed/
+|
++-- 99-Logs/
+|
++-- Scripts/
+
+The exact location and whether OneDrive is involved should be confirmed
+against the user's existing lecture system.
+
+A major requirement is that the user can simply place a file into a
+hot folder and allow the automation to do the work.
+
+
+===============================================================
+5. AUDIO PIPELINE
+===============================================================
+
+Required conceptual workflow:
+
+    Audio Recording
+        ->
+    Audio Hot Folder
+        ->
+    Audio Detection
+        ->
+    Whisper / whisper.cpp
+        ->
+    Transcript
+        ->
+    Ollama
+        ->
+    Executive Processing
+        ->
+    Markdown
+        ->
+    Obsidian Inbox
+        ->
+    Human Review
+        ->
+    Permanent location / action
+
+The audio processor should NOT assume every recording is a formal meeting.
+
+Potential audio types:
+
+- Board meeting
+- Staff meeting
+- Donor conversation
+- Artist studio visit
+- Community partner meeting
+- Executive voice memo
+- Planning conversation
+- Other institutional conversation
+
+
+===============================================================
+6. AUDIO OUTPUT — EXECUTIVE MEETING / CONVERSATION NOTE
+===============================================================
+
+Proposed output template:
+
+---
+type: meeting
+date: YYYY-MM-DD
+participants:
+  - Person
+organization:
+location:
+meeting_type:
+status: processed
+---
+
+# Meeting with [Name]
+
+## Purpose
+
+Brief description of why the meeting occurred.
+
+## Executive Summary
+
+Three to five sentences summarizing the conversation.
+
+## Key Discussion
+
+### Topic 1
+
+Summary.
+
+### Topic 2
+
+Summary.
+
+## Decisions
+
+- Decision made
+- Decision made
+
+## Action Items
+
+- [ ] Person — Action
+
+## Follow-Up
+
+Next contact or meeting.
+
+## Issues / Risks
+
+- Potential issue
+
+## Opportunities
+
+- Potential opportunity
+
+## People Mentioned
+
+- [[Person]]
+
+## Related
+
+- [[Project]]
+- [[Program]]
+- [[Strategic Priority]]
+
+
+===============================================================
+7. EXECUTIVE VOICE MEMO
+===============================================================
+
+The audio system should support informal voice memos.
+
+Example:
+
+"I just left the meeting with the foundation. I think we should pursue
+the education grant. Jane seemed interested in partnering on the
+application..."
+
+The system should be capable of producing something like:
+
+---
+type: executive-note
+date: YYYY-MM-DD
+---
+
+# Foundation Grant — Executive Note
+
+## Observation
+
+...
+
+## Potential Decision
+
+...
+
+## Next Action
+
+- [ ] Contact Jane regarding partnership
+
+## Related
+
+- [[Foundation Grant]]
+- [[Jane Smith]]
+
+This is intended to make executive thinking capture nearly frictionless.
+
+
+===============================================================
+8. NEW PDF HOT-FOLDER PIPELINE
+===============================================================
+
+THIS IS A MAJOR REQUIREMENT.
+
+Create a PDF hot folder that accepts supplied PDF documents.
+
+Required conceptual workflow:
+
+    PDF
+      ->
+    PDF-In Hot Folder
+      ->
+    PDF detected
+      ->
+    Extract text
+      ->
+    Ollama / LLM
+      ->
+    Executive intelligence processing
+      ->
+    Markdown
+      ->
+    VIMA Obsidian Inbox
+      ->
+    Human review
+      ->
+    Permanent location
+
+The user specifically wants this to work similarly to the existing
+lecture system pipeline.
+
+The user should NOT have to manually copy/paste PDF text into ChatGPT.
+
+
+===============================================================
+9. PDF TYPES THE SYSTEM SHOULD HANDLE
+===============================================================
+
+Potential documents include:
+
+- grant proposals
+- board packets
+- strategic plans
+- museum reports
+- annual reports
+- foundation guidelines
+- artist proposals
+- contracts
+- policies
+- conference papers
+- government reports
+- benchmarking studies
+- institutional reports
+- meeting agendas
+- other executive documents
+
+
+===============================================================
+10. PDF PROCESSING SHOULD NOT BE A GENERIC SUMMARY
+===============================================================
+
+Do NOT build a simplistic:
+
+    PDF -> "summarize this"
+
+pipeline.
+
+The system should produce an EXECUTIVE INTELLIGENCE NOTE.
+
+Ideally, the processor should classify the document and use an appropriate
+summary structure.
+
+Examples:
+
+
+BOARD PACKET
+------------
+
+- Executive Summary
+- Decisions Required
+- Discussion Items
+- Financial Issues
+- Governance Issues
+- Risks
+- Action Items
+- Questions for Board
+- Related Documents
+
+
+GRANT GUIDELINES
+----------------
+
+- Funder
+- Grant Name
+- Deadline
+- Eligibility
+- Funding Range
+- Priority Areas
+- Required Materials
+- Evaluation Criteria
+- Potential VIMA Alignment
+- Potential Concerns
+- Recommended Action
+
+
+MUSEUM INDUSTRY REPORT
+----------------------
+
+- Executive Summary
+- Major Findings
+- Industry Trends
+- Relevant Statistics
+- Implications for VIMA
+- Opportunities
+- Risks
+- Potential Strategic Responses
+- Sources
+
+
+ARTIST PROPOSAL
+---------------
+
+- Artist
+- Project
+- Concept
+- Requested Resources
+- Dates
+- Technical Requirements
+- Budget
+- Curatorial Considerations
+- Potential Issues
+- Recommendation
+- Follow-Up
+
+
+POLICY
+------
+
+- Purpose
+- Scope
+- Key Requirements
+- Responsibilities
+- Compliance Requirements
+- Operational Implications
+- Risks
+- Questions
+- Related Policies
+
+
+===============================================================
+11. BASE PDF MARKDOWN TEMPLATE
+===============================================================
+
+Proposed template:
+
+---
+type: document-summary
+source_type:
+title:
+author:
+organization:
+date:
+source_file:
+date_processed:
+status: unreviewed
+priority:
+---
+
+# {{title}}
+
+## Executive Summary
+
+## Key Findings
+
+- 
+- 
+- 
+
+## Important Details
+
+### 1.
+
+### 2.
+
+### 3.
+
+## Implications for VIMA
+
+### Strategic
+
+### Operational
+
+### Financial
+
+### Programmatic
+
+### Community
+
+## Opportunities
+
+- 
+
+## Risks / Concerns
+
+- 
+
+## Decisions or Actions Required
+
+- [ ]
+
+## Questions to Resolve
+
+- 
+
+## People / Organizations Mentioned
+
+- 
+
+## Related VIMA Projects
+
+- 
+
+## Related Documents
+
+- 
+
+## Source
+
+Original document: `{{source_file}}`
+
+
+===============================================================
+12. EXECUTIVE RELEVANCE LAYER
+===============================================================
+
+Every imported document should ideally be evaluated for relevance to VIMA.
+
+Potential strategic areas:
+
+- governance
+- collections
+- exhibitions
+- education
+- development
+- community
+- tourism
+- partnerships
+- operations
+- facilities
+
+The system should ideally generate fields such as:
+
+strategic_areas:
+  - development
+  - partnerships
+
+relevance: high
+
+recommended_action: Investigate eligibility
+
+deadline: YYYY-MM-DD
+
+This converts imported information into actionable institutional
+intelligence instead of passive notes.
+
+
+===============================================================
+13. HUMAN REVIEW / INBOX PRINCIPLE
+===============================================================
+
+DO NOT automatically file every generated document permanently.
+
+Preferred:
+
+    Automation
+        ->
+    00 Inbox
+        ->
+    Executive Review
+        ->
+    Permanent Location
+
+Every generated note should initially have:
+
+status: unreviewed
+
+Possible lifecycle:
+
+unreviewed
+    ->
+reviewed
+    ->
+actionable
+    ->
+active
+    ->
+completed
+    ->
+archived
+
+This protects the vault from becoming overloaded with unreviewed
+AI-generated information.
+
+
+===============================================================
+14. EXECUTIVE DASHBOARD
+===============================================================
+
+Create a central:
+
+10 Executive/Dashboard.md
+
+Conceptual sections:
+
+TODAY
+-----
+- Today's Meetings
+- Today's Priorities
+- Outstanding Decisions
+- Immediate Deadlines
+
+THIS WEEK
+---------
+- Meetings
+- Action Items
+- Deadlines
+- Board Items
+- Development
+- Programs
+
+EXECUTIVE PRIORITIES
+--------------------
+
+1. Strategic Plan
+2. Development
+3. Board Development
+4. Community Partnerships
+5. Exhibitions
+
+ACTIVE PROJECTS
+---------------
+
+Project | Status | Next Action
+
+FOLLOW-UP
+---------
+- People awaiting response
+- Promises made
+- Documents requested
+- Decisions pending
+
+RECENT INTELLIGENCE
+-------------------
+- Latest meeting notes
+- Latest PDF summaries
+- Latest decisions
+- Latest research
+
+
+===============================================================
+15. DECISION LOG
+===============================================================
+
+Create a dedicated decision-log system.
+
+Example:
+
+---
+type: decision
+date: YYYY-MM-DD
+decision_status: active
+priority: high
+---
+
+# Decision — [Decision Name]
+
+## Decision
+
+What was decided.
+
+## Context
+
+Why the decision was necessary.
+
+## Alternatives Considered
+
+1.
+2.
+3.
+
+## Rationale
+
+Why the decision was made.
+
+## Financial Impact
+
+## Operational Impact
+
+## People Involved
+
+## Risks
+
+## Follow-Up
+
+- [ ]
+
+## Review Date
+
+YYYY-MM-DD
+
+
+The purpose is to create an institutional memory of executive judgment.
+
+
+===============================================================
+16. PEOPLE SYSTEM
+===============================================================
+
+People should be a major part of the knowledge graph.
+
+Example:
+
+---
+type: person
+organization:
+role:
+relationship:
+last_contact:
+next_contact:
+---
+
+# Jane Smith
+
+## Role
+
+## Organization
+
+## Relationship to VIMA
+
+## Current Projects
+
+- [[Project]]
+
+## Conversations
+
+- [[YYYY-MM-DD Meeting with Jane Smith]]
+
+## Commitments
+
+### VIMA Owes
+
+-
+
+### Jane Owes
+
+-
+
+## Opportunities
+
+-
+
+## Notes
+
+
+The goal is that after six months the ED can open a person note and
+immediately see:
+
+- who they are
+- what has been discussed
+- what VIMA promised
+- what the other person promised
+- what projects they are connected to
+- relevant conversations
+
+
+===============================================================
+17. MEETINGS AS KNOWLEDGE-GRAPH NODES
+===============================================================
+
+A meeting should connect:
+
+Meeting
+  |
+  +-- People
+  |
+  +-- Projects
+  |
+  +-- Decisions
+  |
+  +-- Action Items
+  |
+  +-- Programs
+  |
+  +-- Strategic Priorities
+
+The meeting is therefore not merely a document.
+
+It is an institutional knowledge node.
+
+
+===============================================================
+18. KNOWLEDGE GRAPH CONCEPT
+===============================================================
+
+The intended architecture is:
+
+                         STRATEGIC PLAN
+                              |
+          +-------------------+-------------------+
+          |                   |                   |
+       PROGRAMS            PROJECTS          PRIORITIES
+          |                   |                   |
+          +----------+--------+---------+---------+
+                     |                  |
+                  PEOPLE             DECISIONS
+                     |                  |
+              +------+-------+          |
+              |              |          |
+          PARTNERS         DONORS        |
+              |              |          |
+              +------+-------+----------+
+                     |
+                  MEETINGS
+                     |
+                AUDIO NOTES
+                     |
+                  DOCUMENTS
+                     |
+                PDF SUMMARIES
+
+
+===============================================================
+19. RECOMMENDED TECHNOLOGY
+===============================================================
+
+Existing / preferred stack:
+
+CAPTURE
+-------
+- iPhone
+- OBS where appropriate
+- Outlook Calendar metadata
+- Voice recordings
+
+FILE MOVEMENT
+-------------
+- OneDrive where appropriate
+- PowerShell
+- Windows Task Scheduler
+
+TRANSCRIPTION
+-------------
+- Whisper / whisper.cpp
+
+AI PROCESSING
+-------------
+- Ollama
+
+KNOWLEDGE MANAGEMENT
+--------------------
+- Obsidian
+
+OBSIDIAN AUTOMATION
+-------------------
+- Dataview
+- Templater
+- QuickAdd
+- Tasks
+- Bases and/or Buttons as appropriate
+
+
+IMPORTANT:
+Do not add plugins merely because they are available. Prefer a small,
+stable stack and use plugins only where they provide clear value.
+
+
+===============================================================
+20. IMPLEMENTATION PHASES
+===============================================================
+
+PHASE 1 — FOUNDATION
+--------------------
+
+- Create vault structure
+- Establish properties
+- Create templates
+- Create Inbox
+- Create dashboard
+- Configure Tasks
+- Configure Dataview
+- Establish naming conventions
+
+
+PHASE 2 — AUDIO
+---------------
+
+Adapt existing:
+
+Audio -> Whisper -> Ollama -> Markdown
+
+for:
+
+Executive Meeting
+Executive Conversation
+Executive Voice Memo
+
+
+PHASE 3 — PDF
+-------------
+
+Build:
+
+PDF Hot Folder
+    ->
+Text Extraction
+    ->
+Ollama
+    ->
+Executive Summary
+    ->
+Obsidian
+
+
+PHASE 4 — RELATIONSHIPS
+-----------------------
+
+Build:
+
+- People
+- Organizations
+- Partners
+- Donors
+- Board members
+- Artists
+
+
+PHASE 5 — EXECUTIVE INTELLIGENCE
+--------------------------------
+
+Build:
+
+- Decision log
+- Strategic priorities
+- Risks
+- Opportunities
+- Follow-ups
+- Commitments
+
+
+PHASE 6 — DASHBOARD
+-------------------
+
+Integrate the above into the VIMA Executive Dashboard.
+
+
+===============================================================
+21. DESIGN PRINCIPLES
+===============================================================
+
+1. LOW FRICTION
+   Capturing information should be extremely easy.
+
+2. AUTOMATE REPETITIVE WORK
+   File processing, transcription, extraction, classification, and
+   initial structuring should be automated.
+
+3. HUMAN REVIEW
+   AI-generated material should pass through an Inbox before becoming
+   permanent institutional knowledge.
+
+4. EXECUTIVE ORIENTATION
+   The system should prioritize decisions, actions, risks, opportunities,
+   relationships, and strategic relevance.
+
+5. INSTITUTIONAL MEMORY
+   The system should preserve context and history over years.
+
+6. LINK INFORMATION
+   Meetings, people, projects, programs, decisions, and documents should
+   connect to one another.
+
+7. LOCAL-FIRST WHERE PRACTICAL
+   The existing Ollama/Whisper approach is preferred when technically
+   practical, particularly for institutional information.
+
+8. DO NOT OVERENGINEER
+   Build a working system incrementally rather than attempting a giant
+   automation framework at once.
+
+9. EXPLAINABLE
+   The user should understand what each component does and how to
+   troubleshoot it.
+
+10. PRESERVE EXISTING WORK
+    Do not break the academic lecture system while building VIMA.
+
+
+===============================================================
+22. IMMEDIATE NEXT TASK FOR COPILOT
+===============================================================
+
+Do NOT immediately start writing the entire system.
+
+First inspect the existing project/repository and determine:
+
+1. What operating system/environment the existing automation uses.
+2. Where the existing lecture hot folder is located.
+3. How the current audio pipeline detects files.
+4. How ffmpeg is invoked.
+5. How whisper.cpp/Whisper is invoked.
+6. How Ollama is invoked.
+7. How Markdown is generated.
+8. Where generated Markdown is placed.
+9. What Obsidian vault path is currently used.
+10. Whether the existing architecture can be safely generalized for VIMA.
+11. What scripts already exist and should be reused.
+12. What dependencies are already installed.
+13. What parts should remain untouched.
+
+Then report the findings before making destructive or broad changes.
+
+After inspection, propose the smallest implementation that provides:
+
+A. A VIMA PDF hot folder
+B. PDF text extraction
+C. Ollama-based executive summary generation
+D. Markdown output into the VIMA Obsidian Inbox
+E. Logging and basic error handling
+
+Only after that should the broader VIMA Executive OS be implemented.
+
+
+===============================================================
+23. DESIRED END STATE
+===============================================================
+
+The ED's real-world workflow should eventually be:
+
+    MEETING
+       ->
+    RECORD IT
+       ->
+    AUTOMATION
+       ->
+    TRANSCRIBE
+       ->
+    STRUCTURE
+       ->
+    OBSIDIAN
+
+
+    RECEIVE 40-PAGE REPORT
+       ->
+    DROP PDF INTO FOLDER
+       ->
+    AUTOMATION
+       ->
+    EXTRACT TEXT
+       ->
+    ANALYZE
+       ->
+    EXECUTIVE SUMMARY
+       ->
+    OBSIDIAN
+
+
+    HAVE AN IDEA
+       ->
+    RECORD VOICE MEMO
+       ->
+    AUTOMATION
+       ->
+    EXECUTIVE NOTE
+       ->
+    OBSIDIAN
+
+
+The system then supports:
+
+    KNOWLEDGE
+       |
+       +-- People
+       +-- Projects
+       +-- Programs
+       +-- Board
+       +-- Documents
+       +-- Research
+       |
+       v
+    ACTION
+       |
+       +-- Tasks
+       +-- Decisions
+       +-- Follow-ups
+       +-- Risks
+       +-- Opportunities
+       |
+       v
+    EXECUTIVE DASHBOARD
+
+
+The overall philosophy is:
+
+    CAPTURE -> INTERPRET -> STRUCTURE -> CONNECT -> REVIEW -> ACT
+
+
+===============================================================
+END OF PROJECT CONTEXT
+===============================================================
